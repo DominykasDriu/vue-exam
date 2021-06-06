@@ -8,6 +8,8 @@
           <h5 class="card-title">{{post.title}}</h5>
           <p class="card-text">{{truncateDescription(post.description)}}</p>
           <a class="btn btn-primary" @click="goToPost(post.username, post.id)">Read more</a>
+          <a class="btn btn-secondary ml-2" v-if="user.name === post.username" @click="goEditPost(post.id)">Edit</a>
+          <a class="btn btn-warning ml-2" v-if="user.name === post.username">Delete</a>
         </div>
       </div>
     </main>
@@ -23,12 +25,16 @@ export default {
   },
   data() {
     return {
-      posts: null
+      posts: null,
+      user: JSON.parse(localStorage.getItem('blogUser'))
     }
   },
   methods: {
     goToPost(name, id) {
       this.$router.push(`/post/${name}/${id}`)
+    },
+    goEditPost(id) {
+      this.$router.push(`/edit/${id}`)
     },
     truncateDescription(val) {
       return (val.length > 150) ? val.substr(0, 150-1) + ' ...' : val;

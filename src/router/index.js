@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Main from '../views/Main.vue'
 import Create from '../views/Create.vue'
+import Edit from '../views/Edit.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Post from '../views/Post.vue'
@@ -19,6 +20,11 @@ const routes = [
     path: '/create',
     name: 'Create',
     component: Create
+  },
+  {
+    path: '/edit/:id',
+    name: 'Edit',
+    component: Edit
   },
   {
     path: '/login',
