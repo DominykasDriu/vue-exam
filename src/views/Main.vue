@@ -8,7 +8,7 @@
           <h5 class="card-title">{{post.title}}</h5>
           <p class="card-text">{{truncateDescription(post.description)}}</p>
           <a class="btn btn-primary" @click="goToPost(post.username, post.id)">Read more</a>
-          <a class="btn btn-secondary ml-2" v-if="user.name === post.username" @click="goEditPost(post.id)">Edit</a>
+          <a class="btn btn-secondary ml-2" v-if="user.name === post.username" @click="goEditPost(post.username, post.id)">Edit</a>
           <a class="btn btn-warning ml-2" v-if="user.name === post.username" @click="deletePost(post.id)">Delete</a>
         </div>
       </div>
@@ -33,8 +33,8 @@ export default {
     goToPost(name, id) {
       this.$router.push(`/post/${name}/${id}`)
     },
-    goEditPost(id) {
-      this.$router.push(`/edit/${id}`)
+    goEditPost(name,id) {
+      this.$router.push(`/edit/${name}/${id}`)
     },
     deletePost(id) {
       fetch('http://167.99.138.67:1111/deletepost', {
