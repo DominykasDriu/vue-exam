@@ -26,7 +26,7 @@ const routes = [
     component: Login
   },
   {
-    path: '/post/:id',
+    path: '/post/:name/:id',
     name: 'Post',
     component: Post
   },
