@@ -9,7 +9,7 @@
           <p class="card-text">{{truncateDescription(post.description)}}</p>
           <a class="btn btn-primary" @click="goToPost(post.username, post.id)">Read more</a>
           <a class="btn btn-secondary ml-2" v-if="user.name === post.username" @click="goEditPost(post.id)">Edit</a>
-          <a class="btn btn-warning ml-2" v-if="user.name === post.username">Delete</a>
+          <a class="btn btn-warning ml-2" v-if="user.name === post.username" @click="deletePost(post.id)">Delete</a>
         </div>
       </div>
     </main>
@@ -35,6 +35,24 @@ export default {
     },
     goEditPost(id) {
       this.$router.push(`/edit/${id}`)
+    },
+    deletePost(id) {
+      fetch('http://167.99.138.67:1111/deletepost', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          secretKey: this.user.key,
+          id: id
+        })
+      })
+      .then(res => {
+        console.log(res);
+        this.$forceUpdate()
+      })
+      .catch(e => console.log(e))
+      
     },
     truncateDescription(val) {
       return (val.length > 150) ? val.substr(0, 150-1) + ' ...' : val;
