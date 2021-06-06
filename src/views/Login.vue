@@ -37,12 +37,12 @@ export default {
       })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         if (data.success) {
           localStorage.setItem('blogUser', JSON.stringify({
             name: this.name,
             key: data.secretKey
           }))
+          this.$router.push('/')
         } else {
           this.showError = true
         }
