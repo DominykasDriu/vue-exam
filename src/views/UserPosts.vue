@@ -1,8 +1,8 @@
 <template>
   <div>
     <Header/>
-    <h2>{{user}} posts.</h2>
     <main v-if="posts">
+      <h2>{{user}} posts.</h2>
       <div class="card" style="width: 18rem;" v-for="post in posts" :key="post.id">
         <img :src="post.image" class="card-img-top">
         <div class="card-body">
@@ -12,7 +12,7 @@
         </div>
       </div>
     </main>
-    <h3 v-if="!posts">User has no posts.</h3>
+    <h3 v-if="!posts">{{user}} has no posts.</h3>
   </div>
 </template>
 
