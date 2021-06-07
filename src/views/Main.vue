@@ -1,7 +1,14 @@
 <template>
   <div>
     <Header/>
-    <main v-if="posts">
+    <div class="d-flex align-items-center justify-content-center py-4 pl-3" style="width: 800px">
+      <span>From:</span>
+      <input class="form-control mx-4" type="date" v-model="dateFrom">
+      <span>To:</span>
+      <input class="form-control mx-4" type="date" v-model="dateTo">
+      <button class="btn btn-primary" @click="filterByDate">Filter</button>
+    </div>
+    <main class="container" v-if="posts">
       <PostCard
       v-for="post in posts"
       :key="post.id"
@@ -24,10 +31,19 @@ export default {
   },
   data() {
     return {
-      posts: null
+      posts: null,
+      dateFrom: null,
+      dateTo: null
     }
   },
   methods: {
+    filterByDate() {
+      let from = new Date(this.dateFrom).getTime()
+      let to = new Date(this.dateTo).getTime()
+      this.posts = this.posts.filter((e) => {
+        return e.timestamp > from && e.timestamp < to
+      })
+    },
     editPost(e) {
       this.$router.push(`/edit/${e.user}/${e.id}`)
     },
@@ -59,4 +75,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+main {
+  display: flex;
+  flex-wrap: wrap;
+}
+</style>
 

@@ -33,5 +33,6 @@ export default {
   right: 0; 
   margin: 0 auto;
   padding: 20px;
+  z-index: 99999999999;
 }
 </style>

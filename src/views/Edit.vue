@@ -3,6 +3,7 @@
     <Header/>
     <main class="container mt-5">
       <form @submit.prevent="handleSubmit">
+        <h2 class="mb-5">Edit post</h2>
         <div class="form-group">
           <label for="title">Title</label>
           <input type="text" class="form-control" id="title" v-model="info.title">

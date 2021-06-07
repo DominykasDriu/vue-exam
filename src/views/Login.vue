@@ -1,15 +1,20 @@
 <template>
-  <main>
-    <form @submit.prevent="handleSubmit">
-      <label for="name">Name</label>
-      <input type="text" id="name" v-model="name">
-      <label for="password">Password</label>
-      <input type="password" id="password" v-model="pass">
-      <button type="submit">Login</button>
+  <main class="mt-5">
+    <form class="container" @submit.prevent="handleSubmit">
+      <h2 class="mb-5">Log-in</h2>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input class="form-control" type="text" id="name" v-model="name" placeholder="Enter your name">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" v-model="pass" placeholder="Password">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <div v-if="showError" class="alert alert-info mt-4" role="alert">
+        <p>Incorrect credentials!</p>
+      </div>
     </form>
-    <div v-if="showError">
-      <p>Incorrect credentials!</p>
-    </div>
   </main>
 </template>
 

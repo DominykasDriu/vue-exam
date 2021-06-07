@@ -1,8 +1,8 @@
 <template>
   <div>
     <Header/>
-    <main v-if="posts">
-      <h2>{{userPage}} posts.</h2>
+    <h2 class="container mt-4">{{userPage}} posts</h2>
+    <main v-if="posts" class="container mt-4">
       <PostCard
       v-for="post in posts"
       :key="post.id"
@@ -11,7 +11,7 @@
       @delete="deletePost"
       />
     </main>
-    <h3 v-if="!posts">{{userPage}} has no posts.</h3>
+    <h3 v-if="!posts" class="container mt-5 text-center">{{userPage}} has no posts.</h3>
   </div>
 </template>
 
@@ -64,3 +64,10 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+main {
+  display: flex;
+  flex-wrap: wrap;
+}
+</style>

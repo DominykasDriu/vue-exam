@@ -3,9 +3,11 @@
     <Header />
     <main class="container">
       <article class="mb-4">
-        <img class="img-fluid" :src="info.image">
-        <h2 class="font-weight-bold pt-4">{{info.title}}</h2>
-        <p>{{info.description}}</p>
+        <h2 class="font-weight-bold py-4">{{info.title}}</h2>
+        <div class="col-6 mx-auto">
+          <img class="img-fluid" :src="info.image">
+        </div>
+        <p class="mt-5">{{info.description}}</p>
       </article>
     </main>
   </div>

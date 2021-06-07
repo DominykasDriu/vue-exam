@@ -1,20 +1,28 @@
 <template>
-  <main>
-    <form @submit.prevent="handleSubmit">
-      <label for="name">Name</label>
-      <input type="text" id="name" v-model="name">
-      <label for="password">Password</label>
-      <input type="password" id="password" v-model="pass">
-      <label for="repeat-password">Repeat Password</label>
-      <input type="password" id="repeat-password" v-model="passRe">
-      <button type="submit">Submit</button>
-    </form>
-    <div v-if="errors.length">
-      <p>Please fix the errors below:</p>
-      <div v-for="error in errors" :key="error">
-        <p>{{error}}</p>
+  <main class="mt-5">
+    <form class="container" @submit.prevent="handleSubmit">
+      <h2 class="mb-5">Register your account</h2>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input class="form-control" type="text" id="name" v-model="name" placeholder="Enter your name">
       </div>
-    </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" v-model="pass" placeholder="Password">
+      </div>
+      <div class="form-group">
+        <label for="re-password">Repeat Password</label>
+        <input type="password" class="form-control" id="re-password" v-model="passRe" placeholder="Repeat Password">
+        <small class="form-text text-muted">Passwords must match!</small>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <div v-if="errors.length" class="alert alert-info mt-4" role="alert">
+        <p>Please fix the errors below:</p>
+        <div v-for="error in errors" :key="error">
+          <p>{{error}}</p>
+        </div>
+      </div>
+    </form>
   </main>
 </template>
 

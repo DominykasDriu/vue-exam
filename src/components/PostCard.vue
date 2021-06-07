@@ -6,11 +6,12 @@
     v-if="showModal"
     @answer="resolveModal"
     />
-    <div class="card" style="width: 18rem;">
+    <div class="card m-4" style="width: 18rem;">
         <img :src="post.image" class="card-img-top">
         <div class="card-body">
           <h5 class="card-title">{{post.title}}</h5>
-          <p class="card-text">{{truncateDescription(post.description)}}</p>
+          <small class="text-muted">By {{post.username}}</small>
+          <p class="card-text mt-2">{{truncateDescription(post.description)}}</p>
           <a class="btn btn-primary" @click="readMore">Read more</a>
           <a class="btn btn-secondary ml-2" v-if="user.name === post.username" @click="startModal('edit')">Edit</a>
           <a class="btn btn-warning ml-2" v-if="user.name === post.username" @click="startModal('delete')">Delete</a>
@@ -28,7 +29,7 @@ export default {
   components: {Modal},
   data() {
     return {
-      user: JSON.parse(localStorage.getItem('blogUser')) || null,
+      user: JSON.parse(localStorage.getItem('blogUser')) || {},
       showModal: false,
       modalInfo: null
     }
