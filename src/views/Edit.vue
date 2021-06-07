@@ -39,13 +39,6 @@ export default {
   methods: {
     handleSubmit() {
       const user = JSON.parse(localStorage.getItem('blogUser'))
-      console.log({
-            secretKey: user.key,
-            title: this.info.title,
-            image: this.info.image,
-            description: this.info.description,
-            id: this.$route.params.id
-          });
       if (user) {
         if (this.info.title && this.info.description && this.info.image) {
           fetch('http://167.99.138.67:1111/updatepost', {

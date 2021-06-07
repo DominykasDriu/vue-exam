@@ -2,42 +2,37 @@
   <div>
     <Header/>
     <main v-if="posts">
-      <h2>{{user}} posts.</h2>
-      <div class="card" style="width: 18rem;" v-for="post in posts" :key="post.id">
-        <img :src="post.image" class="card-img-top">
-        <div class="card-body">
-          <h5 class="card-title">{{post.title}}</h5>
-          <p class="card-text">{{truncateDescription(post.description)}}</p>
-          <a class="btn btn-primary" @click="goToPost(post.username, post.id)">Read more</a>
-          <a class="btn btn-secondary ml-2" v-if="loggedUser.name === post.username" @click="goEditPost(post.username, post.id)">Edit</a>
-          <a class="btn btn-warning ml-2" v-if="loggedUser.name === post.username" @click="deletePost(post.id)">Delete</a>
-        </div>
-      </div>
+      <h2>{{userPage}} posts.</h2>
+      <PostCard
+      v-for="post in posts"
+      :key="post.id"
+      :post="post"
+      @edit="editPost"
+      @delete="deletePost"
+      />
     </main>
-    <h3 v-if="!posts">{{user}} has no posts.</h3>
+    <h3 v-if="!posts">{{userPage}} has no posts.</h3>
   </div>
 </template>
 
 <script>
 import Header from '../components/Header.vue'
+import PostCard from '../components/PostCard.vue'
 
 export default {
   components: {
-    Header
+    Header,
+    PostCard
   },
   data() {
     return {
       posts: null,
-      user: this.$route.params.name,
-      loggedUser: JSON.parse(localStorage.getItem('blogUser'))
+      userPage: this.$route.params.name,
     }
   },
   methods: {
-    goToPost(name, id) {
-      this.$router.push(`/post/${name}/${id}`)
-    },
-    goEditPost(name,id) {
-      this.$router.push(`/edit/${name}/${id}`)
+    editPost(e) {
+      this.$router.push(`/edit/${e.user}/${e.id}`)
     },
     deletePost(id) {
       fetch('http://167.99.138.67:1111/deletepost', {
@@ -46,27 +41,26 @@ export default {
           'Content-type': 'application/json'
         },
         body: JSON.stringify({
-          secretKey: this.user.key,
+          secretKey: JSON.parse(localStorage.getItem('blogUser')).key,
           id: id
         })
       })
-      .then(res => {
-        console.log(res);
-        this.$forceUpdate()
+      .then(() => {
+        this.getPosts()
       })
       .catch(e => console.log(e))
     },
-    truncateDescription(val) {
-      return (val.length > 150) ? val.substr(0, 150-1) + ' ...' : val;
+    getPosts() {
+      fetch(`http://167.99.138.67:1111/getuserposts/${this.userPage}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.data.length) this.posts = data.data
+      })
+      .catch(e => console.log(e))
     }
   },
   mounted() {
-    fetch(`http://167.99.138.67:1111/getuserposts/${this.user}`)
-    .then(res => res.json())
-    .then(data => {
-      if (data.data.length) this.posts = data.data
-    })
-    .catch(e => console.log(e))
+    this.getPosts()
   }
 }
 </script>

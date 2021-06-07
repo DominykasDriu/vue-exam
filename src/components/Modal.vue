@@ -1,34 +1,36 @@
 <template>
-  <div class="modal" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Modal title</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Modal body text goes here.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
-            Close
-          </button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
+  <div class="modal_wrapper rounded">
+    <h5>{{title}}</h5>
+    <p>Are you sure you want to {{data}} post?</p>
+    <div>
+      <button @click="sendAnswer(true)" class="btn btn-primary mr-3">Yes</button>
+      <button @click="sendAnswer(false)" class="btn btn-secondary">No</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Modal'
+  name: 'Modal',
+  props: ['data', 'title'],
+  methods: {
+    sendAnswer(val) {
+      this.$emit('answer', val, this.data)
+    }
+  },
 }
 </script>
+
+<style lang="scss" scoped>
+.modal_wrapper {
+  background: red;
+  width: 300px;
+  height: auto;
+  position: absolute;
+  top: calc(50vh - 100px);
+  left: 0; 
+  right: 0; 
+  margin: 0 auto;
+  padding: 20px;
+}
+</style>
