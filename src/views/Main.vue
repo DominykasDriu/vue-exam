@@ -2,39 +2,34 @@
   <div>
     <Header/>
     <main v-if="posts">
-      <div class="card" style="width: 18rem;" v-for="post in posts" :key="post.id">
-        <img :src="post.image" class="card-img-top">
-        <div class="card-body">
-          <h5 class="card-title">{{post.title}}</h5>
-          <p class="card-text">{{truncateDescription(post.description)}}</p>
-          <a class="btn btn-primary" @click="goToPost(post.username, post.id)">Read more</a>
-          <a class="btn btn-secondary ml-2" v-if="user.name === post.username" @click="goEditPost(post.username, post.id)">Edit</a>
-          <a class="btn btn-warning ml-2" v-if="user.name === post.username" @click="deletePost(post.id)">Delete</a>
-        </div>
-      </div>
+      <PostCard
+      v-for="post in posts"
+      :key="post.id"
+      :post="post"
+      @edit="editPost"
+      @delete="deletePost"
+      />
     </main>
   </div>
 </template>
 
 <script>
 import Header from '../components/Header.vue'
+import PostCard from '../components/PostCard.vue'
 
 export default {
   components: {
-    Header
+    Header,
+    PostCard
   },
   data() {
     return {
-      posts: null,
-      user: JSON.parse(localStorage.getItem('blogUser'))
+      posts: null
     }
   },
   methods: {
-    goToPost(name, id) {
-      this.$router.push(`/post/${name}/${id}`)
-    },
-    goEditPost(name,id) {
-      this.$router.push(`/edit/${name}/${id}`)
+    editPost(e) {
+      this.$router.push(`/edit/${e.user}/${e.id}`)
     },
     deletePost(id) {
       fetch('http://167.99.138.67:1111/deletepost', {
@@ -43,26 +38,25 @@ export default {
           'Content-type': 'application/json'
         },
         body: JSON.stringify({
-          secretKey: this.user.key,
+          secretKey: JSON.parse(localStorage.getItem('blogUser')).key,
           id: id
         })
       })
-      .then(res => {
-        console.log(res);
-        this.$forceUpdate()
+      .then(() => {
+        this.getPosts()
       })
       .catch(e => console.log(e))
-      
     },
-    truncateDescription(val) {
-      return (val.length > 150) ? val.substr(0, 150-1) + ' ...' : val;
+    getPosts() {
+      fetch('http://167.99.138.67:1111/getallposts')
+      .then(res => res.json())
+      .then(data => this.posts = data.data)
+      .catch(e => console.log(e))
     }
   },
   mounted() {
-    fetch('http://167.99.138.67:1111/getallposts')
-    .then(res => res.json())
-    .then(data => this.posts = data.data)
-    .catch(e => console.log(e))
+    this.getPosts()
   }
 }
 </script>
+

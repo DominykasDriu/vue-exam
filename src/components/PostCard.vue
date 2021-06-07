@@ -11,9 +11,9 @@
         <div class="card-body">
           <h5 class="card-title">{{post.title}}</h5>
           <p class="card-text">{{truncateDescription(post.description)}}</p>
-          <a class="btn btn-primary" @click="goToPost">Read more</a>
-          <a class="btn btn-secondary ml-2" v-if="user.name === post.username" @click="tryEditPost()">Edit</a>
-          <a class="btn btn-warning ml-2" v-if="user.name === post.username" @click="tryDeletePost()">Delete</a>
+          <a class="btn btn-primary" @click="readMore">Read more</a>
+          <a class="btn btn-secondary ml-2" v-if="user.name === post.username" @click="startModal('edit')">Edit</a>
+          <a class="btn btn-warning ml-2" v-if="user.name === post.username" @click="startModal('delete')">Delete</a>
         </div>
       </div>
   </div>
@@ -34,8 +34,12 @@ export default {
     }
   },
   methods: {
-    goToPost() {
+    readMore() {
       this.$router.push(`/post/${this.post.username}/${this.post.id}`)
+    },
+    startModal(action) {
+      this.showModal = true
+      this.modalInfo = action
     },
     resolveModal(answer, action) {
       if (answer) {
@@ -46,14 +50,6 @@ export default {
         }
       }
       this.showModal = false
-    },
-    tryEditPost() {
-      this.showModal = true
-      this.modalInfo = 'edit'
-    },
-    tryDeletePost() {
-      this.showModal = true
-      this.modalInfo = 'delete'
     },
     truncateDescription(val) {
       return (val.length > 150) ? val.substr(0, 150-1) + ' ...' : val;

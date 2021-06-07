@@ -23,10 +23,11 @@ export default {
 
 <style lang="scss" scoped>
 .modal_wrapper {
-  background: red;
+  background: white;
+  border: 1px solid grey;
   width: 300px;
   height: auto;
-  position: absolute;
+  position: fixed;
   top: calc(50vh - 100px);
   left: 0; 
   right: 0; 
