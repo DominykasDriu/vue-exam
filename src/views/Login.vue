@@ -1,5 +1,6 @@
 <template>
-  <main class="mt-5">
+  <div>
+    <main class="mt-5">
     <form class="container" @submit.prevent="handleSubmit">
       <h2 class="mb-5">Log-in</h2>
       <div class="form-group">
@@ -16,9 +17,11 @@
       </div>
     </form>
   </main>
+  </div>
 </template>
 
 <script>
+
 export default {
   name: 'Login',
   data() {

@@ -10,7 +10,7 @@
     </div>
     <main class="container" v-if="posts">
       <PostCard
-      v-for="post in posts"
+      v-for="post in filteredPosts || posts"
       :key="post.id"
       :post="post"
       @edit="editPost"
@@ -32,17 +32,20 @@ export default {
   data() {
     return {
       posts: null,
+      filteredPosts: null,
       dateFrom: null,
       dateTo: null
     }
   },
   methods: {
     filterByDate() {
-      let from = new Date(this.dateFrom).getTime()
-      let to = new Date(this.dateTo).getTime()
-      this.posts = this.posts.filter((e) => {
-        return e.timestamp > from && e.timestamp < to
-      })
+      if (this.dateFrom && this.dateTo) {
+        let from = new Date(this.dateFrom).getTime()
+        let to = new Date(this.dateTo).getTime()
+        this.filteredPosts = this.posts.filter((e) => {
+          return e.timestamp > from && e.timestamp < to
+        })
+      }
     },
     editPost(e) {
       this.$router.push(`/edit/${e.user}/${e.id}`)
